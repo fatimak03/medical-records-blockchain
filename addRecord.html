@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add Medical Record - Blockchain Medical Records</title>
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- Header + navigation -->
+  <header>
+    <h1>Blockchain Medical Records</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="addRecord.html">Add Record</a>
+      <a href="viewChain.html">View Chain</a>
+      <a href="validate.html">Validate Chain</a>
+    </nav>
+  </header>
+
+  <!-- Main content area -->
+  <main>
+    <section class="card">
+      <h2>Add Medical Record</h2>
+
+      <!-- Form that collects user inputs for a new block -->
+      <form id="addRecordForm" onsubmit="handleAddRecord(event)">
+
+        <label>
+          Patient ID:
+          <input type="text" id="patientId" required />
+        </label>
+
+        <label>
+          Patient Name:
+          <input type="text" id="patientName" required />
+        </label>
+
+        <label>
+          Diagnosis / Notes:
+          <textarea id="diagnosis" rows="4" required></textarea>
+        </label>
+
+        <!-- Button calls handleAddRecord() in ui.js -->
+        <button type="submit">Add Record to Blockchain</button>
+      </form>
+
+      <!-- Area where results or errors will appear -->
+      <div id="addResult" class="output"></div>
+    </section>
+  </main>
+
+  <!-- Backend logic (Zuhaib's file) -->
+  <script src="blockchain.js"></script>
+
+  <!-- Frontend UI functions (your file) -->
+  <script src="ui.js"></script>
+
+</body>
+</html>
