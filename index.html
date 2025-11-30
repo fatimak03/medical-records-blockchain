@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Blockchain Medical Records</title>
-
-  <!-- Link to the main stylesheet -->
-  <link rel="stylesheet" href="styles.css" />
+  <!-- App styles -->
+  <link rel="stylesheet" href="styles.css"> 
 </head>
 
 <body>
 
-  <!-- Top navigation + title -->
   <header>
     <h1>Blockchain Medical Records</h1>
     <nav>
+      <!-- Page links -->
       <a href="index.html">Home</a>
       <a href="addRecord.html">Add Record</a>
       <a href="viewChain.html">View Chain</a>
@@ -21,32 +20,30 @@
     </nav>
   </header>
 
-  <!-- Main content area -->
   <main>
     <section class="card">
       <h2>Welcome</h2>
 
-      <!-- Intro paragraph explaining the system -->
+      <!-- Basic intro -->
       <p>
-        This demo shows a simple blockchain-based medical records system.
-        You can add new medical records, view the blockchain, and validate
-        the integrity of the chain.
+        This is a basic demo of a blockchain-backed system for storing medical records.
+        You can add entries, inspect the chain, and verify its integrity.
       </p>
 
-      <!-- Quick overview of the features -->
+      <!-- Quick list of features -->
       <ul>
-        <li><strong>Add Record</strong> – create a new medical record block.</li>
-        <li><strong>View Chain</strong> – see all blocks currently in the chain.</li>
-        <li><strong>Validate Chain</strong> – check if the chain has been tampered with.</li>
+        <li><strong>Add Record</strong>: create a new entry in the chain.</li>
+        <li><strong>View Chain</strong>: browse the current chain contents.</li>
+        <li><strong>Validate Chain</strong>: check if anything’s been altered.</li>
       </ul>
     </section>
   </main>
 
-  <!-- Blockchain backend (Zuhaib's file) -->
+  <!-- Logic scripts -->
+  <!-- Blockchain implementation -->
   <script src="blockchain.js"></script>
-
-  <!-- Frontend UI logic (your file) -->
-  <script src="ui.js"></script>
+  <!-- UI handlers -->
+  <script src="ui.js"></script>         
 
 </body>
 </html>

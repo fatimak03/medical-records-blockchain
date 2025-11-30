@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Validate Blockchain - Blockchain Medical Records</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Validate Blockchain | MedChain</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
   <header>
-    <h1>Blockchain Medical Records</h1>
+    <h1>MedChain</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="addRecord.html">Add Record</a>
       <a href="viewChain.html">View Chain</a>
-      <a href="validate.html">Validate Chain</a>
+      <a href="validate.html" class="active">Validate</a>
     </nav>
   </header>
 
   <main>
     <section class="card">
-      <h2>Validate Blockchain</h2>
-      <button onclick="handleValidateChain()">Validate Chain</button>
+      <h2>Check Blockchain Integrity</h2>
+
+      <!-- Run validation logic on click -->
+      <button onclick="handleValidateChain()">Run Validation</button>
+
+      <!-- Result will be shown here -->
       <div id="validationResult" class="output"></div>
     </section>
   </main>
 
+  <!-- Blockchain logic -->
   <script src="blockchain.js"></script>
+
+  <!-- UI functions -->
   <script src="ui.js"></script>
 </body>
 </html>

@@ -1,62 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Add Medical Record - Blockchain Medical Records</title>
-
-  <!-- Main stylesheet -->
-  <link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8">
+  <title>Add Record | MedChain</title>
+  <!-- Link to global stylesheet -->
+  <link rel="stylesheet" href="styles.css"> 
 </head>
 
 <body>
 
-  <!-- Header + navigation -->
   <header>
-    <h1>Blockchain Medical Records</h1>
+    <h1>MedChain</h1>
     <nav>
+      <!-- Main navigation links -->
       <a href="index.html">Home</a>
-      <a href="addRecord.html">Add Record</a>
-      <a href="viewChain.html">View Chain</a>
-      <a href="validate.html">Validate Chain</a>
+      <a href="addRecord.html" class="active">Add</a>
+      <a href="viewChain.html">Records</a>
+      <a href="validate.html">Verify</a>
     </nav>
   </header>
 
-  <!-- Main content area -->
   <main>
     <section class="card">
-      <h2>Add Medical Record</h2>
+      <h2>New Medical Entry</h2>
 
-      <!-- Form that collects user inputs for a new block -->
+      <!-- The Record submission form -->
       <form id="addRecordForm" onsubmit="handleAddRecord(event)">
-
-        <label>
-          Patient ID:
-          <input type="text" id="patientId" required />
+        <!-- Input for unique patient ID -->
+        <label for="patientId">Patient ID:
+          <input type="text" id="patientId" name="patientId" required>
         </label>
 
-        <label>
-          Patient Name:
-          <input type="text" id="patientName" required />
+        <!-- This is where you input the patient’s name -->
+        <label for="patientName">Name:
+          <input type="text" id="patientName" name="patientName" required>
         </label>
 
-        <label>
-          Diagnosis / Notes:
-          <textarea id="diagnosis" rows="4" required></textarea>
+        <!-- This is for notes or diagnosis -->
+        <label for="diagnosis">Notes:
+          <textarea id="diagnosis" name="diagnosis" rows="4" required></textarea>
         </label>
 
-        <!-- Button calls handleAddRecord() in ui.js -->
-        <button type="submit">Add Record to Blockchain</button>
+        <button type="submit">Submit Record</button>
       </form>
 
-      <!-- Area where results or errors will appear -->
+      <!-- The Output area for success/error message -->
       <div id="addResult" class="output"></div>
     </section>
   </main>
 
-  <!-- Backend logic (Zuhaib's file) -->
+  <!-- Blockchain logic -->
   <script src="blockchain.js"></script>
 
-  <!-- Frontend UI functions (your file) -->
+  <!-- UI handlers (form submission, DOM updates) -->
   <script src="ui.js"></script>
 
 </body>

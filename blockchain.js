@@ -5,14 +5,14 @@ class Block {
   constructor(index, timestamp, data, previousHash = "") {
     this.index = index;
     this.timestamp = timestamp;
-    this.data = data;           // { patientId, patientName, diagnosis }
+    this.data = data; // patient info
     this.previousHash = previousHash;
     this.hash = this.calculateHash();
   }
 
-  // Simple hash function for demo purposes
+  // Lightweight hash function (demo only)
   calculateHash() {
-    const raw =
+    const str =
       this.index +
       "|" +
       this.timestamp +
@@ -22,13 +22,44 @@ class Block {
       this.previousHash;
 
     let hash = 0;
-    for (let i = 0; i < raw.length; i++) {
-      hash = (hash << 5) - hash + raw.charCodeAt(i);
-      hash |= 0; // Convert to 32-bit integer
+
+    for (let i = 0; i < str.length; i++) {
+      hash = (hash << 5) - hash + str.charCodeAt(i);
+      hash |= 0; // force 32-bit
     }
 
-    // Return hex string
     return hash.toString(16);
+  }
+}
+
+// ------------------------------
+// Local storage helpers
+// ------------------------------
+function saveChainToStorage(chain) {
+  try {
+    localStorage.setItem("medChain", JSON.stringify(chain));
+  } catch (err) {
+    console.error("Failed to save chain:", err);
+  }
+}
+
+function loadChainFromStorage() {
+  try {
+    const saved = localStorage.getItem("medChain");
+    if (!saved) return null;
+
+    const parsed = JSON.parse(saved);
+
+    // Rebuild real Block objects from plain JSON
+    return parsed.map((b) => {
+      const block = new Block(b.index, b.timestamp, b.data, b.previousHash);
+      // keep original hash so nothing changes
+      block.hash = b.hash;
+      return block;
+    });
+  } catch (err) {
+    console.error("Failed to load chain:", err);
+    return null;
   }
 }
 
@@ -37,7 +68,14 @@ class Block {
 // ------------------------------
 class Blockchain {
   constructor() {
-    this.chain = [this.createGenesisBlock()];
+    const loaded = loadChainFromStorage();
+
+    if (loaded && loaded.length > 0) {
+      this.chain = loaded;
+    } else {
+      this.chain = [this.createGenesisBlock()];
+      saveChainToStorage(this.chain);
+    }
   }
 
   createGenesisBlock() {
@@ -54,45 +92,37 @@ class Blockchain {
   }
 
   addBlock(newBlock) {
-    // Link to previous block
     newBlock.previousHash = this.getLatestBlock().hash;
     newBlock.hash = newBlock.calculateHash();
     this.chain.push(newBlock);
+    saveChainToStorage(this.chain); // 🔐 persist after every write
     return newBlock;
   }
 
   isChainValid() {
     for (let i = 1; i < this.chain.length; i++) {
-      const current = this.chain[i];
-      const previous = this.chain[i - 1];
+      const curr = this.chain[i];
+      const prev = this.chain[i - 1];
 
-      // Recalculate hash and compare
-      if (current.hash !== current.calculateHash()) {
-        return false;
-      }
-
-      // Check link to previous
-      if (current.previousHash !== previous.hash) {
-        return false;
-      }
+      if (curr.hash !== curr.calculateHash()) return false;
+      if (curr.previousHash !== prev.hash) return false;
     }
     return true;
   }
 }
 
-// ----------------------------------------------------
-// Create global blockchain object for the UI to use
-// ----------------------------------------------------
+// ------------------------------
+// Shared blockchain instance
+// ------------------------------
 const medicalChain = new Blockchain();
 
+// ------------------------------
+// Public API for UI integration
+// ------------------------------
 window.blockchainApp = {
-  // Called from handleAddRecord in ui.js
+  // Called by handleAddRecord in ui.js
   addRecord: function (patientId, patientName, diagnosis) {
-    const data = {
-      patientId,
-      patientName,
-      diagnosis,
-    };
+    const data = { patientId, patientName, diagnosis };
 
     const newBlock = new Block(
       medicalChain.chain.length,
@@ -101,17 +131,16 @@ window.blockchainApp = {
       medicalChain.getLatestBlock().hash
     );
 
-    medicalChain.addBlock(newBlock);
-    return newBlock;
+    return medicalChain.addBlock(newBlock);
   },
 
-  // Called from handleShowChain in viewChain.html
+  // Called by handleShowChain in viewChain.html
   getChain: function () {
     return medicalChain.chain;
   },
 
-  // Called from handleValidateChain in validate.html
+  // Called by handleValidateChain in validate.html
   isValid: function () {
     return medicalChain.isChainValid();
-  },
+  }
 };
